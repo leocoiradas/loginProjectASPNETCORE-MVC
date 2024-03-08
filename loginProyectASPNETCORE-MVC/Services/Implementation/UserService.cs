@@ -21,7 +21,7 @@ namespace loginProyectASPNETCORE_MVC.Services.Implementation
         public async Task<Usuario> SaveUser(Usuario model)
         {
             _dbpruebaContext.Usuarios.Add(model);
-            _dbpruebaContext.SaveChangesAsync();
+            await _dbpruebaContext.SaveChangesAsync();
             return model;
         }
     }
