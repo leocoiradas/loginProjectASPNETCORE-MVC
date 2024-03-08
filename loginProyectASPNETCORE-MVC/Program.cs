@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using loginProyectASPNETCORE_MVC.Models;
+using loginProyectASPNETCORE_MVC.Services.Contract;
+using loginProyectASPNETCORE_MVC.Services.Implementation;
 
 namespace loginProyectASPNETCORE_MVC
 {
@@ -20,6 +22,8 @@ namespace loginProyectASPNETCORE_MVC
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SQLString"));
             });
+
+            builder.Services.AddScoped<IUserService, UserService>();
 
             var app = builder.Build();
 
