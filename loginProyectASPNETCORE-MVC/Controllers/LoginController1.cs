@@ -43,10 +43,37 @@ namespace loginProyectASPNETCORE_MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string email, string password)
         {
+            //Se busca al usuario en la base de datos con el método GetUser creado en UserService
+            //Se pasa como parametro el correo y la contraseña la cual es encriptada con el método que creamos en Utilities
+            Usuario user_found = await _userService.GetUser(email, Utilities.EncryptPassword(password));
 
-            return View();
+            if (user_found == null)
+            {
+                ViewData["Message"] = "No se encontraron coincidencias";
+                return View();
+            }
 
+            /*A continuación se implementa la lógica correspondiente a autenticación con ASPNETCORE Identity*/
 
+            List<Claim> claims = new List<Claim>() 
+            {
+                new Claim(ClaimTypes.Name, user_found.Username) 
+            };
+            /*Nota: Cada claim corresponde a un fragmento de información del usuario que se puede dividir en tipos
+             (los mas comunes siendo email, name, country o role) investigar para tener más info*/
+
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            AuthenticationProperties properties = new AuthenticationProperties() 
+            {
+                AllowRefresh = true,
+            };
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                properties
+                );
+            return RedirectToAction("Index", "Home");
         }
     }
 }
