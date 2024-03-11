@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using loginProyectASPNETCORE_MVC.Models;
 using loginProyectASPNETCORE_MVC.Services.Contract;
 using loginProyectASPNETCORE_MVC.Services.Implementation;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 
 namespace loginProyectASPNETCORE_MVC
 {
@@ -24,6 +26,12 @@ namespace loginProyectASPNETCORE_MVC
             });
 
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/inicio/Login";
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(300);
+                });
 
             var app = builder.Build();
 
@@ -40,11 +48,13 @@ namespace loginProyectASPNETCORE_MVC
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Login}/{id?}");
 
             app.Run();
         }
