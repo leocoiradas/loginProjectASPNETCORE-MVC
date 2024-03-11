@@ -24,10 +24,15 @@ namespace loginProyectASPNETCORE_MVC.Controllers
         {
             user.Password = Utilities.EncryptPassword(user.Password);
             Usuario user_created = await _userService.SaveUser(user);
+
+            //Condicional que verifica si el id del usuario creado no es nulo (es decir, que el usuario se creó correctamente)
+
             if (user_created.UserId > 0)
             {
                 return RedirectToAction("Login", "Home");
             }
+            //En caso de no poder crearse el usuario, se muestra el siguiente mensaje al usuario a través de ViewData
+
             ViewData["Message"] = "User could not be created";
             return View();
         }
@@ -36,9 +41,12 @@ namespace loginProyectASPNETCORE_MVC.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Login(string user, string password)
+        public async Task<IActionResult> Login(string email, string password)
         {
+
             return View();
+
+
         }
     }
 }
