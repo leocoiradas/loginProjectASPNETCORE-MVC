@@ -29,7 +29,7 @@ namespace loginProyectASPNETCORE_MVC
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.LoginPath = "/inicio/Login";
+                    options.LoginPath = "/Login/Login";
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(300);
                 });
 
@@ -54,7 +54,7 @@ namespace loginProyectASPNETCORE_MVC
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Login}/{id?}");
+                pattern: "{controller=Login}/{action=Login}/{id?}");
 
             app.Run();
         }
