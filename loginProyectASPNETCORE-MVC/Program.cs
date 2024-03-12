@@ -33,6 +33,16 @@ namespace loginProyectASPNETCORE_MVC
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(300);
                 });
 
+            builder.Services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add(
+                    new ResponseCacheAttribute
+                    {
+                        NoStore = true,
+                        Location = ResponseCacheLocation.None,
+                    });
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
