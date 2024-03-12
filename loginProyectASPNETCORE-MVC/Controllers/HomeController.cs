@@ -1,6 +1,7 @@
 using loginProyectASPNETCORE_MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace loginProyectASPNETCORE_MVC.Controllers
 {
@@ -15,6 +16,15 @@ namespace loginProyectASPNETCORE_MVC.Controllers
 
         public IActionResult Index()
         {
+            ClaimsPrincipal claimsUser = HttpContext.User;
+            string userName = "";
+            if(claimsUser.Identity.IsAuthenticated)
+            {
+                userName = claimsUser.Claims.Where(c => c.Type == ClaimTypes.Name).Select(c => c.Value).SingleOrDefault();
+            }
+
+            ViewData["userName"] = userName;
+
             return View();
         }
 
