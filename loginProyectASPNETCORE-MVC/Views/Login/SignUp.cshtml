@@ -36,6 +36,11 @@
 
                                 </div>
                             }
+                            @*En el siguiente método Url.Action notamos una estructura similar al redirect to action
+                            que se usó en los controladores, sin embargo no hay que confundirse puesto que el orden de los elementos que
+                            recibe como parametro son al inverso que el redirect to action,
+                            primero va el método a ejecutar, y a continuación el controlador al que pertenece dicho método
+                            *@
                             ¿Tienes una cuenta? <a href="@Url.Action("Login", "Login")">Iniciar sesión</a>
                         </form>
                     </div>
